@@ -170,10 +170,12 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackColor = SystemColors.ActiveCaption;
+            pictureBox1.BackColor = Color.Cyan;
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.Location = new Point(525, 146);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(263, 202);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 13;
             pictureBox1.TabStop = false;
             // 
@@ -194,7 +196,7 @@
             button3.ForeColor = Color.White;
             button3.Location = new Point(696, 83);
             button3.Name = "button3";
-            button3.Size = new Size(92, 43);
+            button3.Size = new Size(107, 43);
             button3.TabIndex = 2;
             button3.Text = "Tanlash";
             button3.UseVisualStyleBackColor = false;
@@ -226,7 +228,7 @@
             button2.ForeColor = Color.White;
             button2.Location = new Point(661, 403);
             button2.Name = "button2";
-            button2.Size = new Size(118, 49);
+            button2.Size = new Size(127, 49);
             button2.TabIndex = 18;
             button2.Text = "Orqaga";
             button2.UseVisualStyleBackColor = false;
@@ -236,7 +238,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 464);
+            ClientSize = new Size(815, 464);
             Controls.Add(button2);
             Controls.Add(textBoxNomi);
             Controls.Add(label8);
