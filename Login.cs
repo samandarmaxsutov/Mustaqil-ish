@@ -57,7 +57,7 @@ namespace Elektronika
         {
             try
             {
-                FirebaseResponse response = await client.GetTaskAsync("Users/");
+                FirebaseResponse response = await client.GetAsync("Users/");
                 if (response.Body != "null")
                 {
 

@@ -59,7 +59,7 @@ namespace Elektronika
             }
 
             // Firebase operations
-            FirebaseResponse responce = await client.GetTaskAsync("Counter/node");
+            FirebaseResponse responce = await client.GetAsync("Counter/node");
             Counter_class counter = responce.ResultAs<Counter_class>();
 
             using (MemoryStream ms = new MemoryStream())
@@ -80,8 +80,8 @@ namespace Elektronika
                     rasm = output
                 };
 
-                SetResponse resp = await client.SetTaskAsync("ElektronikaData/" + dataElectronika.Id, dataElectronika);
-                SetResponse response1 = await client.SetTaskAsync("Counter/node", new Counter_class { cnt = dataElectronika.Id.ToString() });
+                SetResponse resp = await client.SetAsync("ElektronikaData/" + dataElectronika.Id, dataElectronika);
+                SetResponse response1 = await client.SetAsync("Counter/node", new Counter_class { cnt = dataElectronika.Id.ToString() });
 
                 MessageBox.Show(dataElectronika.nomi + " qo'shildi");
 

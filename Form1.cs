@@ -5,12 +5,16 @@ using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using ClosedXML.Excel;
+using System.Windows.Forms;
+using System.Globalization;
+using System.Collections;
 
 namespace Elektronika
 {
     public partial class Form1 : Form
     {
         DataTable dataTable = new DataTable();
+        BindingSource bindingSource;
         IFirebaseConfig config = new FirebaseConfig
         {
             AuthSecret = "GJnlZcdsnGodMMSSnhHbbu7azJDcziIiNNnn2ApQ",
@@ -28,7 +32,7 @@ namespace Elektronika
         private async void button1_Click(object sender, EventArgs e)
         {
 
-           
+
             Login login = new Login();
             login.FormClosed += new FormClosedEventHandler(form2_FormClosed);
             this.Hide();
@@ -38,14 +42,14 @@ namespace Elektronika
         private void Form1_Load(object sender, EventArgs e)
         {
             client = new FireSharp.FirebaseClient(config);
-
+            bindingSource = new BindingSource();
             if (client != null)
             {
                 label1.Text = "Ulangan";
-                label1.ForeColor = Color.Green;
+                label1.ForeColor = Color.White;
                 dataTable.Columns.Add("Id");
                 dataTable.Columns.Add("Rasmi", typeof(Image));
-               
+
                 dataTable.Columns.Add("Nomi");
                 dataTable.Columns.Add("Firma nomi");
                 dataTable.Columns.Add("Batareya quvvati");
@@ -53,7 +57,10 @@ namespace Elektronika
                 dataTable.Columns.Add("Xotira xajmi");
                 dataTable.Columns.Add("Elektronika turi");
 
-                dataGridView1.DataSource = dataTable;
+                bindingSource.DataSource = dataTable;
+
+
+                dataGridView1.DataSource = bindingSource;
 
                 dataGridView1.RowTemplate.Height = 100;
 
@@ -67,7 +74,7 @@ namespace Elektronika
                 dataGridView1.Columns["Xotira xajmi"].Width = 100;
                 dataGridView1.Columns["Elektronika turi"].Width = 150;
 
-                
+
 
                 export();
             }
@@ -81,7 +88,7 @@ namespace Elektronika
         }
         private void form2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Show(); 
+            this.Show();
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -93,7 +100,7 @@ namespace Elektronika
 
             dataTable.Rows.Clear();
 
-            FirebaseResponse response = await client.GetTaskAsync("Counter/node");
+            FirebaseResponse response = await client.GetAsync("Counter/node");
             Counter_class obj1 = response.ResultAs<Counter_class>();
 
             int cnt = Convert.ToInt32(obj1.cnt);
@@ -104,7 +111,7 @@ namespace Elektronika
             {
                 try
                 {
-                    FirebaseResponse response1 = await client.GetTaskAsync("ElektronikaData/" + i);
+                    FirebaseResponse response1 = await client.GetAsync("ElektronikaData/" + i);
                     ElektronikaData obj2 = response1.ResultAs<ElektronikaData>();
 
                     DataRow dataRow = dataTable.NewRow();
@@ -180,5 +187,48 @@ namespace Elektronika
             }
         }
 
+
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string searchValue = textBox1.Text.Trim();
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                bindingSource.Filter = string.Format("Nomi LIKE '%{0}%'", searchValue);
+            }
+            else
+            {
+                bindingSource.Filter = "";
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            string searchValue = textBox2.Text.Trim();
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                bindingSource.Filter = string.Format("[Firma nomi] LIKE '%{0}%'", searchValue);
+            }
+            else
+            {
+                bindingSource.Filter = "";
+
+            }
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            string searchValue = textBox3.Text.Trim();
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                bindingSource.Filter = string.Format("[Ishlab chiqarilgan sana] LIKE '%{0}%'", searchValue);
+            }
+            else
+            {
+                bindingSource.Filter = "";
+
+            }
+        }
     }
 }
